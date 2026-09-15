@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Totem Interativo | 10 anos Galeria Pagé Brás</title>
+  <style>
+    :root {
+      --ink: #f7fbff;
+      --muted: #a8b8d4;
+      --navy: #071426;
+      --blue: #0a2d63;
+      --cyan: #14c7e6;
+      --gold: #ffc72c;
+      --coral: #ff5c72;
+      --line: rgba(255,255,255,.15);
+      --panel: rgba(9,30,59,.76);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-snap-type: y mandatory; background: var(--navy); }
+    body { margin: 0; color: var(--ink); background: var(--navy); font-family: Inter, Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif; }
+    button, a { font: inherit; }
+    .slide {
+      min-height: 100svh;
+      scroll-snap-align: start;
+      position: relative;
+      display: grid;
+      align-content: center;
+      overflow: hidden;
+      padding: clamp(72px, 9vw, 132px) clamp(28px, 7vw, 120px) clamp(70px, 8vw, 112px);
+      background:
+        radial-gradient(circle at 90% 10%, rgba(20,199,230,.18), transparent 31%),
+        radial-gradient(circle at 5% 85%, rgba(255,199,44,.09), transparent 26%),
+        linear-gradient(145deg, #071426 0%, #09234b 64%, #08172a 100%);
+    }
+    .slide::after {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 28px;
+      pointer-events: none;
+    }
+    .slide:nth-of-type(even) { background: radial-gradient(circle at 14% 16%, rgba(20,199,230,.16), transparent 28%), linear-gradient(145deg, #08172a, #061120 72%); }
+    .kicker { margin: 0 0 18px; color: var(--cyan); font-size: 13px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 900px; margin-bottom: 26px; font-size: clamp(52px, 8vw, 112px); line-height: .92; letter-spacing: -.055em; }
+    h2 { max-width: 950px; margin-bottom: 22px; font-size: clamp(38px, 5.5vw, 76px); line-height: .98; letter-spacing: -.04em; }
+    h3 { margin-bottom: 8px; font-size: clamp(20px, 2vw, 30px); line-height: 1.1; }
+    .lead { max-width: 840px; color: #d9e5f6; font-size: clamp(20px, 2.25vw, 34px); line-height: 1.28; }
+    .small { color: var(--muted); font-size: 14px; line-height: 1.45; }
+    .accent { color: var(--gold); }
+    .cyan { color: var(--cyan); }
+    .topbar { position: fixed; z-index: 20; top: 0; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px clamp(20px, 4vw, 58px); background: linear-gradient(to bottom, rgba(4,14,28,.9), rgba(4,14,28,.1)); backdrop-filter: blur(8px); }
+    .brand { display: flex; align-items: center; gap: 12px; color: white; text-decoration: none; font-size: 13px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .brand-mark { width: 34px; height: 34px; border-radius: 50%; background: conic-gradient(from -30deg, var(--gold), var(--cyan), #3974ff, var(--gold)); box-shadow: 0 0 0 5px rgba(255,255,255,.08); }
+    .top-actions { display: flex; align-items: center; gap: 12px; }
+    .count { color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+    .top-actions a { border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 700; }
+    .progress { position: fixed; z-index: 25; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--cyan), var(--gold)); }
+    .nav { position: fixed; z-index: 20; right: clamp(18px, 3vw, 48px); bottom: 24px; display: flex; gap: 8px; }
+    .nav button { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; color: white; background: rgba(4,14,28,.72); cursor: pointer; }
+    .cover { grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); align-items: center; gap: clamp(34px, 6vw, 100px); }
+    .cover-copy { position: relative; z-index: 2; }
+    .cover-copy .lead { max-width: 680px; }
+    .anniversary { margin: 30px 0 0; font-size: 15px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
+    .wheel-wrap { position: relative; min-height: 560px; display: grid; place-items: center; }
+    .wheel-wrap::before { content: ""; position: absolute; width: 84%; aspect-ratio: 1; border-radius: 50%; background: var(--cyan); filter: blur(70px); opacity: .18; }
+    .wheel { position: relative; width: min(580px, 90%); aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 34px 90px rgba(0,0,0,.5); transform: rotate(-3deg); }
+    .statement { max-width: 980px; }
+    .statement h2 { font-size: clamp(42px, 6.8vw, 92px); }
+    .statement .rule { width: min(420px, 70vw); height: 8px; margin: 34px 0; background: linear-gradient(90deg, var(--gold), var(--coral)); border-radius: 99px; }
+    .split { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); gap: clamp(34px, 7vw, 110px); align-items: center; }
+    .specs { display: grid; gap: 2px; border-top: 1px solid var(--line); }
+    .spec { display: grid; grid-template-columns: minmax(120px, .7fr) minmax(160px, 1.3fr); gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .spec span:first-child { color: var(--muted); }
+    .spec strong { font-size: clamp(18px, 1.8vw, 26px); }
+    .totem { position: relative; justify-self: center; width: min(340px, 72vw); height: min(650px, 70vh); border: 13px solid #111b2d; border-radius: 30px; background: linear-gradient(150deg, #18d0e7 0 20%, #0a65ba 20% 39%, #ffc72c 39% 57%, #0a2d63 57% 75%, #ff5c72 75%); box-shadow: 0 32px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.2) inset; }
+    .totem::before { content: "TOQUE PARA COMEÇAR"; position: absolute; inset: 50% 18px auto; transform: translateY(-50%); color: white; text-align: center; font-size: clamp(22px, 2.4vw, 36px); font-weight: 900; line-height: 1.05; text-shadow: 0 3px 18px rgba(0,0,0,.35); }
+    .totem::after { content: "10 ANOS"; position: absolute; left: 0; right: 0; bottom: 30px; text-align: center; color: white; font-size: 15px; font-weight: 800; letter-spacing: .22em; }
+    .journey { display: grid; grid-template-columns: repeat(5, 1fr); gap: 24px; margin-top: 40px; counter-reset: item; }
+    .step { position: relative; min-height: 230px; padding: 72px 0 0; border-top: 2px solid var(--line); }
+    .step::before { counter-increment: item; content: "0" counter(item); position: absolute; top: 14px; left: 0; color: var(--gold); font-size: 32px; font-weight: 900; }
+    .step p { color: var(--muted); line-height: 1.45; }
+    .games { display: grid; grid-template-columns: 1.2fr .8fr; gap: clamp(26px, 6vw, 84px); align-items: stretch; }
+    .game-main { min-height: 490px; display: grid; grid-template-columns: 1fr 1.1fr; gap: 34px; align-items: center; }
+    .game-main img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; box-shadow: 0 26px 80px rgba(0,0,0,.45); }
+    .game-list { display: grid; align-content: center; border-top: 1px solid var(--line); }
+    .game-item { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .game-item p { margin: 0; color: var(--muted); line-height: 1.4; }
+    .logic { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 7vw, 100px); align-items: start; }
+    .logic-col { border-top: 1px solid var(--line); }
+    .logic-row { padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .logic-row strong { display: block; margin-bottom: 6px; font-size: 20px; }
+    .logic-row p { margin: 0; color: var(--muted); line-height: 1.45; }
+    .tag { display: inline-block; margin-top: 28px; padding: 8px 12px; border: 1px solid rgba(255,199,44,.55); border-radius: 999px; color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+    .video-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 26px; }
+    .video-card { overflow: hidden; background: rgba(4,14,28,.5); border: 1px solid var(--line); border-radius: 22px; }
+    .video-stage { position: relative; aspect-ratio: 9 / 16; max-height: 52vh; background: linear-gradient(145deg, #173966, #071426); }
+    .video-stage video { width: 100%; height: 100%; object-fit: contain; background: #000; }
+    .video-overlay { position: absolute; inset: 0; display: grid; place-content: center; gap: 12px; padding: 28px; text-align: center; cursor: pointer; background: radial-gradient(circle at 50% 40%, rgba(20,199,230,.24), transparent 35%), linear-gradient(160deg, rgba(7,20,38,.35), rgba(7,20,38,.9)); }
+    .video-overlay .play { display: grid; place-items: center; width: 66px; height: 66px; margin: 0 auto; border-radius: 50%; color: #071426; background: var(--gold); font-size: 26px; box-shadow: 0 12px 34px rgba(0,0,0,.35); }
+    .video-overlay strong { font-size: 20px; }
+    .video-card figcaption { padding: 16px 18px 18px; color: var(--muted); font-size: 13px; line-height: 1.4; }
+    .price-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(38px, 7vw, 110px); align-items: center; }
+    .price-switch { display: flex; flex-wrap: wrap; gap: 10px; margin: 26px 0 30px; }
+    .price-switch button { padding: 10px 14px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: transparent; cursor: pointer; }
+    .price-switch button.active { color: #071426; background: var(--gold); border-color: var(--gold); font-weight: 800; }
+    .price { font-size: clamp(54px, 8vw, 108px); font-weight: 900; letter-spacing: -.06em; line-height: .95; }
+    .price-note { max-width: 660px; margin: 18px 0 0; color: var(--muted); font-size: 17px; line-height: 1.5; }
+    .cost-lines { border-top: 1px solid var(--line); }
+    .cost-line { display: flex; justify-content: space-between; gap: 24px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .cost-line span { color: var(--muted); }
+    .cost-line strong { text-align: right; }
+    .compare-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(34px, 7vw, 100px); align-items: center; }
+    .compare-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 28px; }
+    .compare-card { padding: 24px; border: 1px solid var(--line); border-radius: 22px; background: rgba(4,14,28,.38); }
+    .compare-card.buy { border-color: rgba(20,199,230,.55); }
+    .compare-card.rent { border-color: rgba(255,92,114,.48); }
+    .compare-card span { display: block; color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .compare-card strong { display: block; margin: 12px 0 8px; font-size: clamp(30px, 3.3vw, 48px); line-height: 1; }
+    .compare-card p { margin: 0; color: var(--muted); line-height: 1.4; }
+    .saving { margin-top: 18px; padding: 18px 22px; border-left: 5px solid var(--gold); background: rgba(255,199,44,.08); }
+    .saving strong { display: block; color: var(--gold); font-size: clamp(24px, 2.6vw, 38px); }
+    .scope-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(36px, 7vw, 100px); align-items: start; }
+    .scope-price { margin: 20px 0 12px; color: var(--gold); font-size: clamp(58px, 8vw, 104px); font-weight: 900; letter-spacing: -.06em; line-height: .95; }
+    .scope-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; border-top: 1px solid var(--line); }
+    .scope-item { padding: 19px 0; border-bottom: 1px solid var(--line); }
+    .scope-item strong { display: block; margin-bottom: 5px; }
+    .scope-item p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.4; }
+    .approval { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(34px, 8vw, 120px); }
+    .checklist { border-top: 1px solid var(--line); }
+    .check { display: grid; grid-template-columns: 30px 1fr; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+    .check i { width: 22px; height: 22px; border: 2px solid var(--cyan); border-radius: 50%; }
+    .check strong { display: block; margin-bottom: 4px; }
+    .check p { margin: 0; color: var(--muted); line-height: 1.4; }
+    .decision { align-self: center; }
+    .decision h2 { font-size: clamp(44px, 6vw, 84px); }
+    .decision-box { margin-top: 28px; padding: 26px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .decision-box strong { display: block; color: var(--gold); font-size: clamp(22px, 2.4vw, 34px); }
+    .decision-box p { margin: 10px 0 0; color: var(--muted); line-height: 1.5; }
+    .source { position: absolute; left: clamp(28px, 7vw, 120px); bottom: 26px; max-width: 72vw; color: #8292ad; font-size: 11px; line-height: 1.35; }
+    @media (max-width: 920px) {
+      html { scroll-snap-type: none; }
+      .slide { min-height: auto; padding-top: 100px; }
+      .cover, .split, .games, .logic, .price-layout, .compare-grid, .scope-grid, .approval { grid-template-columns: 1fr; }
+      .wheel-wrap { min-height: 360px; }
+      .wheel { width: min(430px, 90%); }
+      .journey { grid-template-columns: 1fr 1fr; }
+      .video-grid { grid-template-columns: 1fr; }
+      .video-stage { max-height: 68vh; }
+      .top-actions a, .count { display: none; }
+      .source { position: static; margin-top: 36px; max-width: 100%; }
+    }
+    @media (max-width: 600px) {
+      .journey, .game-main { grid-template-columns: 1fr; }
+      .step { min-height: auto; }
+      .nav { display: none; }
+      .slide::after { inset: 8px; border-radius: 18px; }
+    }
+    @media print {
+      .topbar, .nav, .progress { display: none !important; }
+      html, body { background: #071426; }
+      .slide { min-height: 100vh; page-break-after: always; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+      .video-overlay { display: grid !important; }
+      video { visibility: hidden; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#abertura"><span class="brand-mark"></span> Galeria Pagé Brás</a>
+    <div class="top-actions"><span class="count">01 / 10</span></div>
+  </header>
+  <nav class="nav" aria-label="Navegação da apresentação"><button type="button" data-go="prev" aria-label="Slide anterior">↑</button><button type="button" data-go="next" aria-label="Próximo slide">↓</button></nav>
+
+  <main>
+    <section class="slide cover" id="abertura">
+      <div class="cover-copy">
+        <p class="kicker">Proposta para a ação comemorativa</p>
+        <h1>Totem <span class="cyan">interativo</span></h1>
+        <p class="lead">Uma atração personalizada para transformar os 10 anos da Galeria Pagé Brás em participação, lembrança e distribuição organizada de brindes.</p>
+        <p class="anniversary">10 anos • Galeria Pagé Brás</p>
+      </div>
+      <div class="wheel-wrap"><img class="wheel" src="roleta-referencia.png" alt="Roleta personalizada da Galeria Pagé Brás"></div>
+      <p class="source">Conceito baseado no orçamento do fornecedor e nos vídeos de referência enviados.</p>
+    </section>
+
+    <section class="slide">
+      <div class="statement">
+        <p class="kicker">A oportunidade</p>
+        <h2>O público deixa de apenas passar pelo estande e ganha um motivo claro para parar e participar</h2>
+        <div class="rule"></div>
+        <p class="lead">A tela vira atração, o jogo organiza a experiência e o prêmio fecha a interação. A identidade dos 10 anos aparece em cada etapa.</p>
+      </div>
+    </section>
+
+    <section class="slide split">
+      <div>
+        <p class="kicker">Equipamento cotado</p>
+        <h2>Base pronta para conteúdo e interação por toque</h2>
+        <div class="specs">
+          <div class="spec"><span>Tela</span><strong>Touch LED de 43”</strong></div>
+          <div class="spec"><span>Sistema</span><strong>Android 11</strong></div>
+          <div class="spec"><span>Estrutura</span><strong>Metal para ambiente interno</strong></div>
+          <div class="spec"><span>Conteúdo</span><strong>Configuração por aplicativo de celular</strong></div>
+          <div class="spec"><span>Pós-venda</span><strong>Garantia de 6 meses e assistência própria</strong></div>
+        </div>
+      </div>
+      <div class="totem" role="img" aria-label="Representação de um totem vertical interativo"></div>
+      <p class="source">Fonte: orçamento Mega Light, emitido em 15/09/2026. O vídeo enviado demonstra a publicação de imagens e vídeos pelo aplicativo MagicPlayer.</p>
+    </section>
+
+    <section class="slide">
+      <p class="kicker">Experiência proposta</p>
+      <h2>Uma jornada curta, intuitiva e preparada para o fluxo do evento</h2>
+      <div class="journey">
+        <article class="step"><h3>Atração</h3><p>Animação dos 10 anos chama atenção à distância.</p></article>
+        <article class="step"><h3>Identificação</h3><p>Cadastro ou QR Code pode ser incluído quando houver objetivo de captação.</p></article>
+        <article class="step"><h3>Escolha</h3><p>Roleta, memória ou quiz conforme o momento da campanha.</p></article>
+        <article class="step"><h3>Resultado</h3><p>A tela informa prêmio, tentativa ou mensagem de participação.</p></article>
+        <article class="step"><h3>Entrega</h3><p>A equipe valida o resultado e libera o brinde definido.</p></article>
+      </div>
+      <p class="source">Fluxo recomendado. Cadastro, QR Code, validação e regras de premiação dependem do software a contratar e não aparecem detalhados no orçamento do hardware.</p>
+    </section>
+
+    <section class="slide games">
+      <div>
+        <p class="kicker">Dinâmicas</p>
+        <h2>Uma plataforma, diferentes formas de participar</h2>
+        <div class="game-main">
+          <img src="roleta-referencia.png" alt="Exemplo visual de roleta de brindes">
+          <div><h3>Roleta de brindes</h3><p class="lead">A dinâmica mais rápida para gerar fila, expectativa e celebração. Os prêmios e mensagens podem seguir a identidade da campanha.</p></div>
+        </div>
+      </div>
+      <div class="game-list">
+        <article class="game-item"><h3>Jogo da memória</h3><p>Associa pares, produtos, lojas ou marcos da história da Galeria.</p></article>
+        <article class="game-item"><h3>Quiz dos 10 anos</h3><p>Perguntas curtas sobre a Galeria, moda, compras ou curiosidades da campanha.</p></article>
+        <article class="game-item"><h3>Gire e ganhe</h3><p>Distribuição de prêmios com probabilidades e estoque configurados no sistema.</p></article>
+        <article class="game-item"><h3>Conteúdo institucional</h3><p>Entre as partidas, o totem exibe vídeos, agenda e mensagens dos lojistas.</p></article>
+      </div>
+      <p class="source">A roleta e o jogo da memória aparecem nos materiais de referência. Quiz, cadastro e controle avançado de brindes devem entrar no escopo do software.</p>
+    </section>
+
+    <section class="slide">
+      <div class="logic">
+        <div>
+          <p class="kicker">Distribuição inteligente</p>
+          <h2>Regras claras evitam improviso na entrega dos brindes</h2>
+          <p class="lead">A compra faz mais sentido quando o sistema também controla a operação da campanha.</p>
+          <span class="tag">Escopo recomendado para cotação</span>
+        </div>
+        <div class="logic-col">
+          <div class="logic-row"><strong>Probabilidade por prêmio</strong><p>Define a frequência de cada resultado e protege os itens de maior valor.</p></div>
+          <div class="logic-row"><strong>Limite de estoque</strong><p>Interrompe automaticamente um prêmio quando a quantidade disponível termina.</p></div>
+          <div class="logic-row"><strong>Janelas de horário</strong><p>Distribui oportunidades ao longo do evento e reduz o risco de acabar tudo no início.</p></div>
+          <div class="logic-row"><strong>Controle de repetição</strong><p>Regras por telefone, CPF, e-mail ou código podem limitar novas tentativas.</p></div>
+          <div class="logic-row"><strong>Relatório da ação</strong><p>Registra partidas, resultados e cadastros autorizados para a análise posterior.</p></div>
+        </div>
+      </div>
+      <p class="source">Funcionalidades sugeridas. Devem ser confirmadas com o fornecedor do software e tratadas de acordo com a LGPD.</p>
+    </section>
+
+    <section class="slide" id="videos">
+      <p class="kicker">Provas de referência</p>
+      <h2>O conceito já aparece funcionando em situações reais</h2>
+      <div class="video-grid">
+        <figure class="video-card">
+          <div class="video-stage"><video controls preload="metadata" playsinline src="video-totem-demo.mp4"></video><button class="video-overlay" type="button"><span class="play">▶</span><strong>Conteúdo pelo celular</strong><span class="small">1 min 01 s</span></button></div>
+          <figcaption>O aplicativo envia imagens e vídeos para a tela e permite configurar área, duração e sequência.</figcaption>
+        </figure>
+        <figure class="video-card">
+          <div class="video-stage"><video controls preload="metadata" playsinline src="video-memoria.mp4"></video><button class="video-overlay" type="button"><span class="play">▶</span><strong>Jogo da memória</strong><span class="small">34 s</span></button></div>
+          <figcaption>Exemplo de jogo personalizado com marcas, cronômetro e interação por toque.</figcaption>
+        </figure>
+        <figure class="video-card">
+          <div class="video-stage"><video controls preload="metadata" playsinline src="video-referencia-3.mp4" poster="roleta-referencia.png"></video><button class="video-overlay" type="button"><span class="play">▶</span><strong>Galeria Pagé Brás</strong><span class="small">11 s</span></button></div>
+          <figcaption>Referência direta da roleta personalizada da Galeria em uso no totem.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="slide compare-grid">
+      <div>
+        <p class="kicker">Compra x locação</p>
+        <h2>Uma única locação de 3 dias já custa mais que comprar o equipamento</h2>
+        <div class="compare-cards">
+          <article class="compare-card buy"><span>Compra à vista com ST</span><strong>R$ 8.072,96</strong><p>O equipamento permanece como ativo para novas ações.</p></article>
+          <article class="compare-card rent"><span>Locação por 3 dias</span><strong>R$ 12.800,00</strong><p>Custo de uso pontual informado como referência.</p></article>
+        </div>
+        <div class="saving"><strong>Economia imediata: R$ 4.727,04</strong><p class="small">A locação é 58,6% mais cara que a compra à vista com ST, comparando somente o equipamento.</p></div>
+      </div>
+      <div class="cost-lines">
+        <div class="cost-line"><span>Hardware à vista</span><strong>R$ 6.800,00</strong></div>
+        <div class="cost-line"><span>Total à vista com ST</span><strong>R$ 8.072,96</strong></div>
+        <div class="cost-line"><span>Hardware a prazo</span><strong>R$ 7.600,00</strong></div>
+        <div class="cost-line"><span>Total a prazo com ST</span><strong>R$ 9.022,72</strong></div>
+        <div class="cost-line"><span>Condição a prazo</span><strong>30% de entrada + 4x no cartão</strong></div>
+        <div class="cost-line"><span>Frete</span><strong>Por conta do cliente</strong></div>
+      </div>
+      <p class="source">Compra: orçamento Mega Light, 15/09/2026. Locação: referência informada de R$ 12.800,00 por 3 dias. Comparação exclusiva do equipamento; frete, instalação, operação e software devem ser equalizados entre as propostas.</p>
+    </section>
+
+    <section class="slide scope-grid">
+      <div>
+        <p class="kicker">Sistema personalizado</p>
+        <h2>A roleta transforma a tela em uma operação de campanha</h2>
+        <div class="scope-price">R$ 8.000,00</div>
+        <p class="lead">Desenvolvimento personalizado para a ação, com regras, identidade e controle da premiação.</p>
+        <span class="tag">Escopo recomendado para confirmação</span>
+      </div>
+      <div class="scope-list">
+        <article class="scope-item"><strong>Interface da campanha</strong><p>Layout, telas, animações, mensagens e aplicação da identidade dos 10 anos.</p></article>
+        <article class="scope-item"><strong>Cadastro de prêmios</strong><p>Itens, mensagens de resultado, quantidades e disponibilidade por prêmio.</p></article>
+        <article class="scope-item"><strong>Motor da roleta</strong><p>Probabilidades, limites de estoque, horários e regras de repetição.</p></article>
+        <article class="scope-item"><strong>Jornada do participante</strong><p>Início, cadastro opcional, consentimento LGPD, rodada e confirmação do resultado.</p></article>
+        <article class="scope-item"><strong>Painel e relatórios</strong><p>Acompanhamento de partidas, resultados, prêmios e cadastros autorizados.</p></article>
+        <article class="scope-item"><strong>Instalação e homologação</strong><p>Configuração e testes no Android 11 e na tela touch de 43 polegadas.</p></article>
+      </div>
+      <p class="source">Valor informado pelo cliente. Esta é uma síntese recomendada do escopo e deve ser validada com o desenvolvedor, incluindo prazo, suporte, treinamento, atualizações e propriedade do código.</p>
+    </section>
+
+    <section class="slide approval">
+      <div>
+        <p class="kicker">Antes da aprovação</p>
+        <h2>O investimento inicial cria um ativo reutilizável para novas campanhas</h2>
+        <div class="checklist">
+          <div class="check"><i></i><div><strong>Equipamento à vista com ST</strong><p>R$ 8.072,96 conforme orçamento apresentado.</p></div></div>
+          <div class="check"><i></i><div><strong>Sistema personalizado</strong><p>R$ 8.000,00, com escopo e entregáveis a confirmar.</p></div></div>
+          <div class="check"><i></i><div><strong>Entrega e instalação</strong><p>Frete, prazo, montagem, teste, energia, internet e suporte no evento.</p></div></div>
+          <div class="check"><i></i><div><strong>Tributação e garantia</strong><p>Confirmar ativo imobilizado, total da nota e condições da garantia de 6 meses.</p></div></div>
+        </div>
+      </div>
+      <div class="decision">
+        <p class="kicker">Recomendação</p>
+        <h2>Comprar faz mais sentido que locar</h2>
+        <div class="decision-box"><strong>Investimento inicial: R$ 16.072,96</strong><p>Equipamento à vista com ST + desenvolvimento personalizado. Se o sistema de R$ 8.000,00 for contratado nos dois cenários, locação + sistema chegaria a R$ 20.800,00.</p></div>
+        <p class="lead" style="margin-top:30px">A compra economiza R$ 4.727,04 já na primeira ação em relação à locação do equipamento e deixa a estrutura disponível para campanhas futuras.</p>
+      </div>
+      <p class="source">Recomendação baseada nos valores informados. O total não inclui frete, instalação, operação, suporte no evento nem eventuais impostos ou atualizações do software. Confirmar todos os itens antes da aprovação.</p>
+    </section>
+  </main>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const count = document.querySelector('.count');
+    const progress = document.querySelector('.progress');
+    const activeIndex = () => {
+      const center = innerHeight / 2;
+      let best = 0, delta = Infinity;
+      slides.forEach((slide, i) => { const d = Math.abs(slide.getBoundingClientRect().top - center + slide.offsetHeight / 2); if (d < delta) { delta = d; best = i; } });
+      return best;
+    };
+    function update() {
+      const index = activeIndex();
+      count.textContent = `${String(index + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+      progress.style.width = `${((index + 1) / slides.length) * 100}%`;
+    }
+    function go(delta) { slides[Math.max(0, Math.min(slides.length - 1, activeIndex() + delta))].scrollIntoView({behavior:'smooth'}); }
+    document.querySelector('[data-go="prev"]').addEventListener('click', () => go(-1));
+    document.querySelector('[data-go="next"]').addEventListener('click', () => go(1));
+    addEventListener('keydown', e => { if (['ArrowDown','PageDown',' '].includes(e.key)) { e.preventDefault(); go(1); } if (['ArrowUp','PageUp'].includes(e.key)) { e.preventDefault(); go(-1); } });
+    addEventListener('scroll', update, {passive:true}); update();
+
+    document.querySelectorAll('.video-overlay').forEach(button => button.addEventListener('click', () => {
+      const video = button.parentElement.querySelector('video');
+      button.hidden = true;
+      document.querySelectorAll('video').forEach(other => { if (other !== video) other.pause(); });
+      video.play();
+    }));
+
+  </script>
+</body>
+</html>
