@@ -18,7 +18,7 @@
     }
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; scroll-snap-type: y mandatory; background: var(--navy); }
-    body { margin: 0; color: var(--ink); background: var(--navy); font-family: Inter, Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif; }
+    body { margin: 0; overflow-x: hidden; color: var(--ink); background: var(--navy); font-family: Inter, Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif; }
     button, a { font: inherit; }
     .slide {
       min-height: 100svh;
@@ -160,6 +160,13 @@
     }
     @media (max-width: 600px) {
       .journey, .game-main { grid-template-columns: 1fr; }
+      .compare-grid > div, .cost-lines { min-width: 0; width: 100%; }
+      .compare-cards, .scope-list { grid-template-columns: 1fr; }
+      .compare-card { min-width: 0; }
+      .saving { padding: 16px 18px; }
+      .cost-line { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 12px; align-items: start; }
+      .cost-line span, .cost-line strong { min-width: 0; overflow-wrap: anywhere; }
+      .cost-line strong { white-space: normal; font-size: 16px; line-height: 1.35; }
       .step { min-height: auto; }
       .nav { display: none; }
       .slide::after { inset: 8px; border-radius: 18px; }
