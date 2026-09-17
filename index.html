@@ -128,6 +128,21 @@
     .compare-card p { margin: 0; color: var(--muted); line-height: 1.4; }
     .saving { margin-top: 18px; padding: 18px 22px; border-left: 5px solid var(--gold); background: rgba(255,199,44,.08); }
     .saving strong { display: block; color: var(--gold); font-size: clamp(24px, 2.6vw, 38px); }
+    .investment-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: clamp(34px, 6vw, 88px); align-items: center; }
+    .investment-grid > div { min-width: 0; }
+    .investment-total { margin-top: 24px; padding: 24px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .investment-total span { color: var(--cyan); font-size: 13px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .investment-total strong { display: block; margin: 10px 0 8px; color: var(--gold); font-size: clamp(56px, 7vw, 96px); line-height: .92; letter-spacing: -.055em; }
+    .investment-total p { margin: 0; color: var(--muted); line-height: 1.45; }
+    .investment-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
+    .breakdown-item { min-width: 0; padding: 17px 18px; border: 1px solid var(--line); border-radius: 16px; background: rgba(4,14,28,.35); }
+    .breakdown-item span { display: block; margin-bottom: 7px; color: var(--muted); font-size: 13px; }
+    .breakdown-item strong { font-size: clamp(22px, 2.3vw, 32px); }
+    .scope-pills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 17px; }
+    .scope-pill { padding: 7px 10px; border: 1px solid rgba(20,199,230,.3); border-radius: 999px; color: #d9e5f6; font-size: 11px; font-weight: 700; }
+    .history-title { margin-bottom: 20px; font-size: clamp(28px, 3.3vw, 44px); line-height: 1.05; }
+    .history-total { color: var(--coral); }
+    .reuse-note { margin: 20px 0 0; padding: 17px 19px; border-radius: 16px; color: #d9e5f6; background: rgba(20,199,230,.08); line-height: 1.45; }
     .scope-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: clamp(36px, 7vw, 100px); align-items: start; }
     .scope-price { margin: 20px 0 12px; color: var(--gold); font-size: clamp(58px, 8vw, 104px); font-weight: 900; letter-spacing: -.06em; line-height: .95; }
     .scope-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 26px; border-top: 1px solid var(--line); }
@@ -149,7 +164,7 @@
     @media (max-width: 920px) {
       html { scroll-snap-type: none; }
       .slide { min-height: auto; padding-top: 100px; }
-      .cover, .split, .games, .logic, .price-layout, .compare-grid, .scope-grid, .approval { grid-template-columns: 1fr; }
+      .cover, .split, .games, .logic, .price-layout, .compare-grid, .scope-grid, .investment-grid, .approval { grid-template-columns: 1fr; }
       .wheel-wrap { min-height: 360px; }
       .wheel-button { width: min(430px, 90%); }
       .journey { grid-template-columns: 1fr 1fr; }
@@ -162,6 +177,8 @@
       .journey, .game-main { grid-template-columns: 1fr; }
       .compare-grid > div, .cost-lines { min-width: 0; width: 100%; }
       .compare-cards, .scope-list { grid-template-columns: 1fr; }
+      .investment-breakdown { grid-template-columns: 1fr; }
+      .investment-total strong { font-size: clamp(48px, 15vw, 72px); }
       .compare-card { min-width: 0; }
       .saving { padding: 16px 18px; }
       .cost-line { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: 12px; align-items: start; }
@@ -184,7 +201,7 @@
   <div class="progress" aria-hidden="true"></div>
   <header class="topbar">
     <a class="brand" href="#abertura"><span class="brand-mark"></span> Galeria Pagé Brás</a>
-    <div class="top-actions"><span class="count">01 / 10</span></div>
+    <div class="top-actions"><span class="count">01 / 09</span></div>
   </header>
   <nav class="nav" aria-label="Navegação da apresentação"><button type="button" data-go="prev" aria-label="Slide anterior">↑</button><button type="button" data-go="next" aria-label="Próximo slide">↓</button></nav>
 
@@ -294,64 +311,49 @@
       </div>
     </section>
 
-    <section class="slide compare-grid">
+    <section class="slide investment-grid">
       <div>
-        <p class="kicker">Compra x locação</p>
-        <h2>Uma única locação de 3 dias já custa mais que comprar o equipamento</h2>
-        <div class="compare-cards">
-          <article class="compare-card buy"><span>Compra à vista com ST</span><strong>R$ 8.072,96</strong><p>O equipamento permanece como ativo para novas ações.</p></article>
-          <article class="compare-card rent"><span>Locação por 3 dias</span><strong>R$ 12.800,00</strong><p>Custo de uso pontual informado como referência.</p></article>
+        <p class="kicker">Investimento completo</p>
+        <h2>Um totem próprio para esta ação e para os próximos eventos</h2>
+        <div class="investment-total"><span>Compra do totem + software personalizado</span><strong>R$ 16.072,96</strong><p>Um ativo da Galeria, reutilizável em feiras, campanhas e ativações futuras.</p></div>
+        <div class="investment-breakdown">
+          <div class="breakdown-item"><span>Compra do totem com ST</span><strong>R$ 8.072,96</strong></div>
+          <div class="breakdown-item"><span>Desenvolvimento do software</span><strong>R$ 8.000,00</strong></div>
         </div>
-        <div class="saving"><strong>Economia imediata: R$ 4.727,04</strong><p class="small">A locação é 58,6% mais cara que a compra à vista com ST, comparando somente o equipamento.</p></div>
+        <div class="scope-pills" aria-label="Síntese do software"><span class="scope-pill">Identidade da campanha</span><span class="scope-pill">Roleta e premiação</span><span class="scope-pill">Estoque e probabilidades</span><span class="scope-pill">Relatórios</span><span class="scope-pill">Instalação e testes</span></div>
       </div>
-      <div class="cost-lines">
-        <div class="cost-line"><span>Hardware à vista</span><strong>R$ 6.800,00</strong></div>
-        <div class="cost-line"><span>Total à vista com ST</span><strong>R$ 8.072,96</strong></div>
-        <div class="cost-line"><span>Hardware a prazo</span><strong>R$ 7.600,00</strong></div>
-        <div class="cost-line"><span>Total a prazo com ST</span><strong>R$ 9.022,72</strong></div>
-        <div class="cost-line"><span>Condição a prazo</span><strong>30% de entrada + 4x no cartão</strong></div>
-        <div class="cost-line"><span>Frete</span><strong>Por conta do cliente</strong></div>
-      </div>
-      <p class="source">Compra: orçamento Mega Light, 15/09/2026. Locação: referência informada de R$ 12.800,00 por 3 dias. Comparação exclusiva do equipamento; frete, instalação, operação e software devem ser equalizados entre as propostas.</p>
-    </section>
-
-    <section class="slide scope-grid">
       <div>
-        <p class="kicker">Sistema personalizado</p>
-        <h2>A roleta transforma a tela em uma operação de campanha</h2>
-        <div class="scope-price">R$ 8.000,00</div>
-        <p class="lead">Desenvolvimento personalizado para a ação, com regras, identidade e controle da premiação.</p>
-        <span class="tag">Escopo recomendado para confirmação</span>
+        <p class="kicker">Histórico de locações</p>
+        <h3 class="history-title">Já investimos <span class="history-total">R$ 21.200,00</span> em apenas dois eventos</h3>
+        <div class="cost-lines">
+          <div class="cost-line"><span>Eletrolar</span><strong>R$ 12.800,00</strong></div>
+          <div class="cost-line"><span>CBM</span><strong>R$ 8.400,00</strong></div>
+          <div class="cost-line"><span>Total já investido</span><strong>R$ 21.200,00</strong></div>
+        </div>
+        <div class="saving"><strong>Redução de investimento: R$ 5.127,04</strong><p class="small">O ativo próprio completo custa 24,2% menos do que o valor já pago nos dois eventos.</p></div>
+        <p class="reuse-note"><strong>Depois desta compra, o mesmo totem e o sistema podem apoiar novas feiras e ações</strong>, com custos futuros concentrados em adaptação, operação e atualização de conteúdo.</p>
       </div>
-      <div class="scope-list">
-        <article class="scope-item"><strong>Interface da campanha</strong><p>Layout, telas, animações, mensagens e aplicação da identidade dos 10 anos.</p></article>
-        <article class="scope-item"><strong>Cadastro de prêmios</strong><p>Itens, mensagens de resultado, quantidades e disponibilidade por prêmio.</p></article>
-        <article class="scope-item"><strong>Motor da roleta</strong><p>Probabilidades, limites de estoque, horários e regras de repetição.</p></article>
-        <article class="scope-item"><strong>Jornada do participante</strong><p>Início, cadastro opcional, consentimento LGPD, rodada e confirmação do resultado.</p></article>
-        <article class="scope-item"><strong>Painel e relatórios</strong><p>Acompanhamento de partidas, resultados, prêmios e cadastros autorizados.</p></article>
-        <article class="scope-item"><strong>Instalação e homologação</strong><p>Configuração e testes no Android 11 e na tela touch de 43 polegadas.</p></article>
-      </div>
-      <p class="source">Valor informado pelo cliente. Esta é uma síntese recomendada do escopo e deve ser validada com o desenvolvedor, incluindo prazo, suporte, treinamento, atualizações e propriedade do código.</p>
+      <p class="source">Valores informados: Eletrolar R$ 12.800,00 e total de R$ 21.200,00 em dois eventos. O valor da CBM, R$ 8.400,00, corresponde à diferença. Compra baseada no orçamento Mega Light; confirmar frete, instalação, suporte e condições finais.</p>
     </section>
 
     <section class="slide approval">
       <div>
         <p class="kicker">Antes da aprovação</p>
-        <h2>O investimento inicial cria um ativo reutilizável para novas campanhas</h2>
+        <h2>O investimento próprio já é menor que duas locações realizadas</h2>
         <div class="checklist">
-          <div class="check"><i></i><div><strong>Equipamento à vista com ST</strong><p>R$ 8.072,96 conforme orçamento apresentado.</p></div></div>
-          <div class="check"><i></i><div><strong>Sistema personalizado</strong><p>R$ 8.000,00, com escopo e entregáveis a confirmar.</p></div></div>
-          <div class="check"><i></i><div><strong>Entrega e instalação</strong><p>Frete, prazo, montagem, teste, energia, internet e suporte no evento.</p></div></div>
-          <div class="check"><i></i><div><strong>Tributação e garantia</strong><p>Confirmar ativo imobilizado, total da nota e condições da garantia de 6 meses.</p></div></div>
+          <div class="check"><i></i><div><strong>Ativo próprio completo</strong><p>R$ 16.072,96 entre compra do totem e software.</p></div></div>
+          <div class="check"><i></i><div><strong>Histórico de dois eventos</strong><p>R$ 21.200,00 já investidos em CBM e Eletrolar.</p></div></div>
+          <div class="check"><i></i><div><strong>Redução imediata</strong><p>R$ 5.127,04 a menos, equivalente a 24,2%.</p></div></div>
+          <div class="check"><i></i><div><strong>Reutilização</strong><p>Disponível para futuras feiras, ativações e campanhas da Galeria.</p></div></div>
         </div>
       </div>
       <div class="decision">
         <p class="kicker">Recomendação</p>
-        <h2>Comprar faz mais sentido que locar</h2>
-        <div class="decision-box"><strong>Investimento inicial: R$ 16.072,96</strong><p>Equipamento à vista com ST + desenvolvimento personalizado. Se o sistema de R$ 8.000,00 for contratado nos dois cenários, locação + sistema chegaria a R$ 20.800,00.</p></div>
-        <p class="lead" style="margin-top:30px">A compra economiza R$ 4.727,04 já na primeira ação em relação à locação do equipamento e deixa a estrutura disponível para campanhas futuras.</p>
+        <h2>Comprar reduz o investimento e cria patrimônio</h2>
+        <div class="decision-box"><strong>R$ 5.127,04 a menos</strong><p>O projeto completo custa R$ 16.072,96, abaixo dos R$ 21.200,00 já pagos em apenas duas locações.</p></div>
+        <p class="lead" style="margin-top:30px">A partir da compra, o totem deixa de ser uma despesa pontual e passa a apoiar várias ações futuras da Galeria.</p>
       </div>
-      <p class="source">Recomendação baseada nos valores informados. O total não inclui frete, instalação, operação, suporte no evento nem eventuais impostos ou atualizações do software. Confirmar todos os itens antes da aprovação.</p>
+      <p class="source">Recomendação baseada nos valores informados. O total do ativo não inclui frete, operação nos eventos, suporte adicional nem futuras atualizações. Confirmar o escopo final antes da aprovação.</p>
     </section>
   </main>
 
